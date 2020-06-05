@@ -10,5 +10,7 @@
         <env name="TEST_SECURITY_RSA_PRIVATE_KEY" value=""/>
         <env name="TEST_SECURITY_RSA_PUBLIC_KEY" value=""/>
         <env name="TEST_SECURITY_RSA_PASSWORD" value=""/>
+        <env name="TEST_SECURITY_RSA_MESSAGE" value=""/>
+        <env name="TEST_SECURITY_RSA_SIGNATURE" value=""/>
     </php>
 </phpunit>
