@@ -16,6 +16,47 @@ namespace OneSite\Core\Security;
 class RSA
 {
 
+    /**
+     * @var int
+     */
+    private $bitsKey = 2048;
+    /**
+     * @var string
+     */
+    private $hash = "sha512";
+
+    /**
+     * @return int
+     */
+    public function getBitsKey(): int
+    {
+        return $this->bitsKey;
+    }
+
+    /**
+     * @param int $bitsKey
+     */
+    public function setBitsKey(int $bitsKey): void
+    {
+        $this->bitsKey = $bitsKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param string $hash
+     */
+    public function setHash(string $hash): void
+    {
+        $this->hash = $hash;
+    }
+
 
     /**
      * @param $privateKeyPath
@@ -33,9 +74,7 @@ class RSA
             $rsa->setPassword($password);
         }
 
-        $bitsKey = !empty($options['bits']) ? $options['bits'] : 2048;
-
-        $keys = $rsa->createKey($bitsKey);
+        $keys = $rsa->createKey($this->getBitsKey());
 
         file_put_contents($privateKeyPath, $keys['privatekey']);
         file_put_contents($publicKeyPath, $keys['publickey']);
@@ -58,10 +97,8 @@ class RSA
 
         $rsaPublic->loadKey($publicKeyData);
 
-        //set hash (I chose sha512 because sha1 apparently has collisions)
-        $rsaPublic->setHash('sha512');
-        //set MGF hash
-        $rsaPublic->setMGFHash('sha512');
+        $rsaPublic->setHash($this->getHash());
+        $rsaPublic->setMGFHash($this->getHash());
 
         $cipherTextRaw = $rsaPublic->encrypt($plaintext);
 
@@ -88,10 +125,8 @@ class RSA
 
         $rsaPrivate->loadKey($privateKeyData, \phpseclib\Crypt\RSA::PRIVATE_FORMAT_PKCS1);
 
-        //set hash (I chose sha512 because sha1 apparently has collisions)
-        $rsaPrivate->setHash('sha512');
-        //set MGF hash
-        $rsaPrivate->setMGFHash('sha512');
+        $rsaPrivate->setHash($this->getHash());
+        $rsaPrivate->setMGFHash($this->getHash());
 
         $decrypted = $rsaPrivate->decrypt(base64_decode($cipherText));
 
@@ -115,8 +150,8 @@ class RSA
         }
 
         $rsaSigner->loadKey($privateKeyData);
-        $rsaSigner->setHash('sha512');
-        $rsaSigner->setMGFHash('sha512');
+        $rsaSigner->setHash($this->getHash());
+        $rsaSigner->setMGFHash($this->getHash());
 
         $signature = $rsaSigner->sign($message);
 
@@ -133,8 +168,8 @@ class RSA
     {
         $rsaVerifier = new \phpseclib\Crypt\RSA();
 
-        $rsaVerifier->setHash('sha512');
-        $rsaVerifier->setMGFHash('sha512');
+        $rsaVerifier->setHash($this->getHash());
+        $rsaVerifier->setMGFHash($this->getHash());
 
         $publicKeyData = file_get_contents($publicKeyPath);
 

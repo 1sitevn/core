@@ -49,8 +49,6 @@ class RSATest extends TestCase
             config('test.security.rsa.password')
         );
 
-        echo "\n" . json_encode(config('test.security.rsa'));
-
         return $this->assertTrue(true);
     }
 
@@ -61,7 +59,7 @@ class RSATest extends TestCase
     {
         $signText = $this->service->sign(
             config('test.security.rsa.private_key'),
-            config('test.security.rsa.signature'),
+            config('test.security.rsa.message'),
             config('test.security.rsa.password')
         );
 
