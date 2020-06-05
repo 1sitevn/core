@@ -12,5 +12,6 @@
         <env name="TEST_SECURITY_RSA_PASSWORD" value=""/>
         <env name="TEST_SECURITY_RSA_MESSAGE" value=""/>
         <env name="TEST_SECURITY_RSA_SIGNATURE" value=""/>
+        <env name="TEST_SECURITY_RSA_CIPHER_TEXT" value=""/>
     </php>
 </phpunit>

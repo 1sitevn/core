@@ -85,4 +85,35 @@ class RSATest extends TestCase
 
         return $this->assertTrue($signVerify);
     }
+
+    /**
+     * PHPUnit test: vendor/bin/phpunit --filter testEncrypt tests/Security/RSATest.php
+     */
+    public function testEncrypt()
+    {
+        $data = $this->service->encrypt(
+            config('test.security.rsa.public_key'),
+            config('test.security.rsa.message')
+        );
+
+        echo "\n" . json_encode($data);
+
+        return $this->assertTrue(true);
+    }
+
+    /**
+     * PHPUnit test: vendor/bin/phpunit --filter testDecrypt tests/Security/RSATest.php
+     */
+    public function testDecrypt()
+    {
+        $data = $this->service->decrypt(
+            config('test.security.rsa.private_key'),
+            config('test.security.rsa.password'),
+            config('test.security.rsa.cipher_text')
+        );
+
+        echo "\n" . json_encode($data);
+
+        return $this->assertSame($data, config('test.security.rsa.message'));
+    }
 }

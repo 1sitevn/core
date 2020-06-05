@@ -9,6 +9,7 @@ return [
                 'password' => env('TEST_SECURITY_RSA_PASSWORD'),
                 'message' => env('TEST_SECURITY_RSA_MESSAGE'),
                 'signature' => env('TEST_SECURITY_RSA_SIGNATURE'),
+                'cipher_text' => env('TEST_SECURITY_RSA_CIPHER_TEXT'),
             ]
         ]
     ]
